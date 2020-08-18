@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  spring-docker:
+    image: spring-docker
+    container_name: spring-docker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dbpostgresql
+    networks:
+      - net
+
+  dbpostgresql:
+    image: postgres
+    container_name: dbpostgresql
+    volumes:
+      - ~/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=mydb
+    networks:
+      - net
+
+networks:
+  net:
