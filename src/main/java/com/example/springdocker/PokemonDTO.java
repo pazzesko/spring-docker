@@ -1,8 +1,12 @@
 package com.example.springdocker;
 
+import javax.validation.constraints.NotEmpty;
+
 public class PokemonDTO {
 
+    @NotEmpty(message = "The name of the pokemon cannot be empty")
     private String name;
+    @NotEmpty(message = "The type of the pokemon cannot be empty")
     private String type;
 
     public String getName() {

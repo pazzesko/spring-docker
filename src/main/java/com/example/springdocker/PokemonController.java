@@ -6,10 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/spring-docker")
 public class PokemonController {
 
     private final PokemonRepository pokemonRepository;
@@ -22,15 +23,26 @@ public class PokemonController {
     }
 
     @GetMapping("/pokemon/{id}")
-    public PokemonModel pokemonById(@PathVariable Long id) {
+    public PokemonModel getPokemonById(@PathVariable Long id) {
         return pokemonRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "The Pokemon with id=" + id + " doesn't exist."));
     }
 
+    @DeleteMapping("/pokemon/{id}")
+    public PokemonModel deletePokemonById(@PathVariable Long id) {
+        PokemonModel pokemonModel = pokemonRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "The Pokemon with id=" + id + " doesn't exist."));
+
+        pokemonRepository.delete(pokemonModel);
+        return pokemonModel;
+    }
+
     @GetMapping("/pokemon/all")
-    Iterable<PokemonModel> all() {
+    List<PokemonModel> all() {
         return pokemonRepository.findAll();
     }
 
@@ -44,8 +56,9 @@ public class PokemonController {
         }
     }
 
-    @PostMapping("/pokemon/save")
-    public PokemonModel save(@RequestBody PokemonDTO pokemon) {
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/pokemon/create")
+    public PokemonModel create(@RequestBody @Valid PokemonDTO pokemon) {
         PokemonModel pokemonModel = modelMapper.map(pokemon, PokemonModel.class);
         return pokemonRepository.save(pokemonModel);
     }
