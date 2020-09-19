@@ -1,4 +1,4 @@
-package com.example.springdocker;
+package com.example.springdocker.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,8 @@
-package com.example.springdocker;
+package com.example.springdocker.service;
 
+import com.example.springdocker.persistence.PokemonDTO;
+import com.example.springdocker.persistence.PokemonModel;
+import com.example.springdocker.persistence.PokemonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +45,7 @@ public class PokemonController {
     }
 
     @GetMapping("/pokemon/all")
-    List<PokemonModel> all() {
+    public List<PokemonModel> all() {
         return pokemonRepository.findAll();
     }
 

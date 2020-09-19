@@ -6,6 +6,7 @@ services:
     container_name: spring-docker
     ports:
       - "8080:8080"
+      - "7080:7080"
     depends_on:
       - dbpostgresql
     networks:
